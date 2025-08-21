@@ -7,10 +7,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Ruta raíz para que Render sepa que el servidor está activo
 app.get('/', (req, res) => {
   res.send('Chatbot BIOTECNO CHILE funcionando correctamente');
 });
 
+// Ruta principal del chatbot
 app.post('/chat', async (req, res) => {
   const userMessage = req.body.message;
 
@@ -36,5 +38,8 @@ app.post('/chat', async (req, res) => {
   }
 });
 
+// Puerto dinámico para Render
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor BIOTECNO CHILE activo en puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Servidor BIOTECNO CHILE activo en puerto ${PORT}`);
+});
