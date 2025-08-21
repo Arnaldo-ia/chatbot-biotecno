@@ -7,6 +7,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+  res.send('Chatbot BIOTECNO CHILE funcionando correctamente');
+});
+
 app.post('/chat', async (req, res) => {
   const userMessage = req.body.message;
 
@@ -19,17 +23,18 @@ app.post('/chat', async (req, res) => {
       },
       {
         headers: {
-  
-  'Content-Type': 'application/json',
-}
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        }
       }
     );
 
     res.json({ reply: response.data.choices[0].message.content });
- } catch (error) {
-  console.error('Error al conectar con OpenAI:', error.response?.data || error.message);
-  res.status(500).json({ reply: 'Lo siento, hubo un error al procesar tu mensaje.' });
-}
+  } catch (error) {
+    console.error('Error al conectar con OpenAI:', error.response?.data || error.message);
+    res.status(500).json({ reply: 'Lo siento, hubo un error al procesar tu mensaje.' });
+  }
 });
 
-app.listen(3000, () => console.log('Servidor BIOTECNO CHILE activo en puerto 3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor BIOTECNO CHILE activo en puerto ${PORT}`));
